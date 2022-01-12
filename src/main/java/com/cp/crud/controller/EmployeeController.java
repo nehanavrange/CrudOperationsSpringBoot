@@ -15,46 +15,55 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.cp.crud.domain.Employee;
+import com.cp.crud.request.EmployeeRequest;
 import com.cp.crud.service.IEmployeeService;
 
 @RestController
-@RequestMapping("/api")
+@RequestMapping(value = { "/api" })
 public class EmployeeController {
 
 	@Autowired
 	IEmployeeService service;
 
 	@PostMapping("/save")
-	public ResponseEntity<?> saveAll(@RequestBody Employee emp) {
-		Employee e = service.addEmp(emp);
-		return new ResponseEntity<Employee>(e, HttpStatus.CREATED);
+	public ResponseEntity<?> saveEmployee(@RequestBody EmployeeRequest employeeRequest) {
+		Employee employee = service.addEmp(employeeRequest);
+		if (employee != null) {
+			return new ResponseEntity<Employee>(employee, HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<Employee>(employee, HttpStatus.BAD_REQUEST);
+		}
 	}
 
-	@GetMapping("/getall")
-	public ResponseEntity<List<Employee>> getAllEmp() {
-		List<Employee> list = service.getAllEmp();
-		return new ResponseEntity<List<Employee>>(list, HttpStatus.OK);
-
+	@GetMapping("/getAll")
+	public ResponseEntity<List<EmployeeRequest>> getAllEmployee() {
+		List<EmployeeRequest> employeeRequestList = service.getAllEmp();
+		return new ResponseEntity<List<EmployeeRequest>>(employeeRequestList, HttpStatus.OK);
 	}
 
 	@GetMapping("/getById/{id}")
-	public ResponseEntity<Employee> getAllEmp(@PathVariable("id") Integer id) {
-		Employee emp = service.getEmpById(id);
-		return new ResponseEntity<Employee>(emp, HttpStatus.OK);
+	public ResponseEntity<EmployeeRequest> getEmployeeById(@PathVariable("id") Integer id) {
+		EmployeeRequest employeeRequest = service.getEmpById(id);
+		return new ResponseEntity<EmployeeRequest>(employeeRequest, HttpStatus.OK);
 	}
 
 	@DeleteMapping("/deleteById/{id}")
-	public ResponseEntity<Void> deleteById(@PathVariable("id") Integer id) {
-		service.deleteById(id);
-		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
-
+	public ResponseEntity<?> deleteById(@PathVariable("id") Integer id) {
+		Boolean flag = service.deleteById(id);
+		if (flag) {
+			return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+		} else {
+			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+		}
 	}
 
 	@PutMapping("/update")
-	public ResponseEntity<Employee> update(@RequestBody Employee emp) {
-		Employee e = service.addEmp(emp);
-		return new ResponseEntity<Employee>(e, HttpStatus.CREATED);
-
+	public ResponseEntity<Employee> update(@RequestBody EmployeeRequest employeeRequest) {
+		Employee employee = service.addEmp(employeeRequest);
+		if (employee != null) {
+			return new ResponseEntity<Employee>(employee, HttpStatus.CREATED);
+		} else {
+			return new ResponseEntity<Employee>(employee, HttpStatus.BAD_REQUEST);
+		}
 	}
-
 }

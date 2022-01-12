@@ -3,12 +3,16 @@ package com.cp.crud.service;
 import java.util.List;
 
 import com.cp.crud.domain.Employee;
+import com.cp.crud.request.EmployeeRequest;
 
 public interface IEmployeeService {
 
-	Employee addEmp(Employee emp);
-	List<Employee> getAllEmp();
-	Employee getEmpById(Integer id);
-	void deleteById(Integer id);
+	Employee addEmp(EmployeeRequest emp);
+
+	List<EmployeeRequest> getAllEmp();
+
+	EmployeeRequest getEmpById(Integer id);
+
+	Boolean deleteById(Integer id);
 
 }

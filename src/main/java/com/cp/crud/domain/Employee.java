@@ -18,10 +18,13 @@ public class Employee {
 	@GeneratedValue
 	@Column(name = "empId")
 	private Integer employeeId;
-	
+
 	@Column(name = "empName")
 	private String employeeName;
-	
+
 	@Column(name = "empSalary")
 	private Double employeeSalary;
+
+
+
 }

@@ -35,8 +35,8 @@ public class StudentController {
 	}
 
 	@GetMapping("/getAll")
-	public ResponseEntity<List<StudParentResponse>> getAllStudent(@RequestBody StudParentRequest studentRequest) {
-		List<StudParentResponse> studParentResponseList = service.getAllStudInfo(studentRequest);
+	public ResponseEntity<List<StudParentResponse>> getAllStudent() {
+		List<StudParentResponse> studParentResponseList = service.getAllStudParentInfo();
 
 		return new ResponseEntity<List<StudParentResponse>>(studParentResponseList, HttpStatus.OK);
 	}

@@ -10,7 +10,7 @@ public interface IStudentService {
 
 	Student addStud(StudParentRequest studParentRequest);
 
-	List<StudParentResponse> getAllStudInfo(StudParentRequest studParentRequest);
+	List<StudParentResponse> getAllStudParentInfo();
 
 	StudParentRequest getStudById(Integer id);
 }

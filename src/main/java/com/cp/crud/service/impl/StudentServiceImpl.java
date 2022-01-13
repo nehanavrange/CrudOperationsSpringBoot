@@ -1,5 +1,6 @@
 package com.cp.crud.service.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -26,7 +27,9 @@ public class StudentServiceImpl implements IStudentService {
 
 	@Override
 	public Student addStud(StudParentRequest studentRequest) {
-		Optional<Student> optional = stdRepository.findByParentCode(studentRequest.getParentCode());
+		// Optional<Student> optional = stdRepository.findByParentCode(studentRequest.getParentCode());
+
+		Optional<Student> optional = stdRepository.findByStudentId(studentRequest.getStudentId());
 		Student student = null;
 		if (optional.isPresent()) {
 			student = optional.get();
@@ -42,21 +45,31 @@ public class StudentServiceImpl implements IStudentService {
 		}
 
 		BeanUtils.copyProperties(studentRequest, parent);
-		// student.setParentId(parent.getParentId());
-		Parent parentDetails = parentRepository.save(parent);
+
+		// Parent parentDetails = parentRepository.save(parent);
+		parentRepository.save(parent);
 
 		BeanUtils.copyProperties(studentRequest, student);
-		student.setParentCode(parentDetails.getParentCode());
+		// student.setParentCode(parentDetails.getParentCode());
 		stdRepository.save(student);
 
 		return student;
 	}
 
 	@Override
-	public List<StudParentResponse> getAllStudInfo(StudParentRequest studParentRequest) {
-		List<Student> studParentResponseList = stdRepository.findAll();
+	public List<StudParentResponse> getAllStudParentInfo() {
+		List<Student> studentList = stdRepository.findAll();
+		List<StudParentResponse> studParentResponseList = new ArrayList<>();
+		for (Student student : studentList) {
+			StudParentResponse studParentResponse = new StudParentResponse();
+			BeanUtils.copyProperties(student, studParentResponse);
+			Optional<Parent> parentDetails = parentRepository.findByParentCode(studParentResponse.getParentCode());
+			Parent parent = parentDetails.get();
+			BeanUtils.copyProperties(parent, studParentResponse);
+			studParentResponseList.add(studParentResponse);
+		}
 
-		return null;
+		return studParentResponseList;
 	}
 
 	@Override

@@ -42,8 +42,8 @@ public class StudentController {
 	}
 
 	@GetMapping("/getById/{id}")
-	public ResponseEntity<StudParentRequest> getStudentById(@PathVariable("id") Integer id) {
-		StudParentRequest studentRequest = service.getStudById(id);
-		return new ResponseEntity<StudParentRequest>(studentRequest, HttpStatus.OK);
+	public ResponseEntity<StudParentResponse> getStudentById(@PathVariable("id") Integer id) {
+		StudParentResponse studentResponse = service.getStudParenInfoById(id);
+		return new ResponseEntity<StudParentResponse>(studentResponse, HttpStatus.OK);
 	}
 }

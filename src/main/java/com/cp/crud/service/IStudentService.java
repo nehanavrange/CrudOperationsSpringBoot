@@ -12,5 +12,5 @@ public interface IStudentService {
 
 	List<StudParentResponse> getAllStudParentInfo();
 
-	StudParentRequest getStudById(Integer id);
+	StudParentResponse getStudParenInfoById(Integer id);
 }

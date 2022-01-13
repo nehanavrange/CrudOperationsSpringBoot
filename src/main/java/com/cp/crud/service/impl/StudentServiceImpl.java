@@ -27,7 +27,6 @@ public class StudentServiceImpl implements IStudentService {
 
 	@Override
 	public Student addStud(StudParentRequest studentRequest) {
-		// Optional<Student> optional = stdRepository.findByParentCode(studentRequest.getParentCode());
 
 		Optional<Student> optional = stdRepository.findByStudentId(studentRequest.getStudentId());
 		Student student = null;
@@ -73,15 +72,19 @@ public class StudentServiceImpl implements IStudentService {
 	}
 
 	@Override
-	public StudParentRequest getStudById(Integer id) {
+	public StudParentResponse getStudParenInfoById(Integer id) {
 
 		Optional<Student> optional = stdRepository.findById(id);
-		StudParentRequest studentRequest = new StudParentRequest();
+		StudParentResponse studParentResponse = new StudParentResponse();
 		if (optional.isPresent()) {
 			Student student = optional.get();
-			BeanUtils.copyProperties(student, studentRequest);
+			BeanUtils.copyProperties(student, studParentResponse);
+			Optional<Parent> parentDetails = parentRepository.findByParentCode(studParentResponse.getParentCode());
+			Parent parent = parentDetails.get();
+			BeanUtils.copyProperties(parent, studParentResponse);
+
 		}
-		return studentRequest;
+		return studParentResponse;
 	}
 
 }

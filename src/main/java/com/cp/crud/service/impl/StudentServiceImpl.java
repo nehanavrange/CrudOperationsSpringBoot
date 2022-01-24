@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import com.cp.crud.domain.Parent;
 import com.cp.crud.domain.Student;
+import com.cp.crud.exception.StudentNotFoundException;
 import com.cp.crud.repo.ParentRepository;
 import com.cp.crud.repo.StudentRepository;
 import com.cp.crud.request.StudParentRequest;
@@ -83,6 +84,9 @@ public class StudentServiceImpl implements IStudentService {
 			Parent parent = parentDetails.get();
 			BeanUtils.copyProperties(parent, studParentResponse);
 
+		}
+		else {
+			throw new StudentNotFoundException("Student with id: "+id+" does not exist in DB");
 		}
 		return studParentResponse;
 	}
